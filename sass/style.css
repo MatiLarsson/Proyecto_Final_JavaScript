@@ -1,1 +1,71 @@
-/* No CSS *//*# sourceMappingURL=style.css.map */
+.header .logo {
+  width: 41.4px;
+  height: 45.9px;
+}
+
+.header .dropdown-menu {
+  background-color: lightgray;
+}
+
+.main .banner {
+  height: 225px;
+  width: 400px;
+  background-image: url("../assets/images/banners/imacs.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+@media screen and (min-width: 576px) {
+  .main .banner {
+    height: 291px;
+    width: 516px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .main .banner {
+    height: 387px;
+    width: 687px;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .main .banner {
+    height: 500px;
+    width: 888px;
+  }
+}
+
+.main .producto img {
+  height: 10rem;
+}
+
+.main .producto p {
+  width: 100%;
+  text-align: center;
+}
+
+.main .producto button {
+  width: 5rem;
+  height: 2rem;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.footer {
+  min-height: 100px;
+}
+
+.footer img {
+  width: 30px;
+  height: 30px;
+}
+
+.footer iframe {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  height: 50%;
+  width: 60%;
+}
+/*# sourceMappingURL=style.css.map */
