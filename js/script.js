@@ -25,7 +25,9 @@ function calcularCarrito() {
             }
         }
     }
+    mostrar('---------------------------------------');
     console.log(`Total del carrito USD ${total}`);
+    mostrar('---------------------------------------');
 }
 // Se crea la función para mantener acutalizado el stock luego de una compra
 function actualizarStock() {
@@ -71,24 +73,10 @@ class Usuario {
     }
     static ID = 0;
 }
-// Se crea una función para cargar un nuevo usuario y almacenarlo en el array de usuarios[]
-function nuevoUsuario() {
-    const nombreUsuario = prompt("Ingrese nombre: ");
-    const apellidoUsuario = prompt("Ingrese apellido: ");
-    const emailUsuario = prompt("Ingrese su email: ");
-    const direccionUsuario = prompt("Ingrese su dirección para envíos: ");
-    usuarios.push(new Usuario(nombreUsuario, apellidoUsuario, emailUsuario, direccionUsuario));
-}
 class Item {
     constructor(idP, cantidad) {
         this.idP = parseInt(idP);
         this.cantidad = parseInt(cantidad);
-    }
-    agregar(item) {
-        this.itemsEnCarrito.push(item);
-    }
-    quitar(item) {
-        this.itemsEnCarrito.pop(item);
     }
 }
 class Venta {
@@ -96,7 +84,77 @@ class Venta {
         this.fecha = fechaActual;
         this.itemsEnCarrito = itemsEnCarrito;
         this.total = total;
-        this.usuario = usuarios[usuarios.length - 1];
+        this.usuario = JSON.parse(localStorage.getItem('usuario'));
+    }
+}
+// Se crea una función para cargar un nuevo usuario y almacenarlo en el array de usuarios[]
+function checkUsuario() {
+    if (JSON.parse(localStorage.getItem('usuario')) === null) {
+        confirm ("¡Bienvenidos a nuestra tienda online!");
+        confirm ("Antes que nada, te pediremos algunos datos...");
+        const nombreUsuario = prompt("Ingrese nombre: ");
+        const apellidoUsuario = prompt("Ingrese apellido: ");
+        const emailUsuario = prompt("Ingrese su email: ");
+        const direccionUsuario = prompt("Ingrese su dirección para envíos: ");
+        usuarios.push(new Usuario(nombreUsuario, apellidoUsuario, emailUsuario, direccionUsuario));
+        localStorage.setItem('usuario', JSON.stringify(usuarios[usuarios.length - 1]));
+    } else {
+        usuarios.push(JSON.parse(localStorage.getItem('usuario')));
+        alert(`Bienvenido de regreso ${JSON.parse(localStorage.getItem('usuario')).nombre} ${JSON.parse(localStorage.getItem('usuario')).apellido}`);
+    }
+}
+// Se crea una función para verificar si el usuario dejó un carrito
+function checkCarrito() {
+    if (JSON.parse(localStorage.getItem('usuario')).carrito.length > 0) {
+        itemsEnCarrito = JSON.parse(localStorage.getItem('usuario')).carrito;
+        calcularCarrito();
+        if (!confirm('Vemos que dejaste productos en tu carrito en tu última visita. (Abre tu consola) ¿Deseas retomarlo?')) {
+            alert("De acuerdo, vaciaremos tu carrito y comenzaremos de nuevo.");
+            itemsEnCarrito = [];
+            const idUWeb = JSON.parse(localStorage.getItem('usuario')).idU;
+            usuarios[idUWeb].carrito = itemsEnCarrito;
+            localStorage.setItem('usuario', JSON.stringify(usuarios[idUWeb]));
+        } else {
+            alert("De acuerdo, lo retomaremos...");
+        }
+    } else {
+        alert("A continuación comenzaremos con tu compra.");
+    }
+}
+// Se crea una función para iniciar un proceso interactivo de compra (adición de productos al carrito)
+function shop() {
+    do {
+        let codigo = parseInt(prompt("Ingrese el código del producto que quiere agregar a su carrito: "));
+        let cantidad = parseInt(prompt(`Ingrese cantidad del producto ${codigo} que quiere comprar: `));
+        itemsEnCarrito.push(new Item(codigo, cantidad));
+        if (!confirm(`Se han agregado ${cantidad} unidades de producto ${codigo} a su carrito de compras. "ACEPTAR" para confirmar, "CANCELAR" para anular.`)) {
+            itemsEnCarrito.pop(itemsEnCarrito[itemsEnCarrito.length - 1]);
+        }
+    } while (confirm("¿Desea continuar comprando?"));
+    const idUWeb = JSON.parse(localStorage.getItem('usuario')).idU;
+    usuarios[idUWeb].carrito = itemsEnCarrito;
+    localStorage.setItem('usuario', JSON.stringify(usuarios[idUWeb]));
+}
+// Se crea un algoritmo para el checkout
+function checkOut() {
+    if (total > 0) {
+        if (!confirm("Click en 'Aceptar' para pagar, o en 'Cancelar' para suspender la compra.")) {
+            mostrar("Lamentamos que se haya arrepentido. Puede volver cuando quiera.");
+        } else {
+            alert(`Se debitará un total de USD ${total} de su tarjeta`);
+            mostrar("Su carrito ya fué abonado con éxito.");
+            mostrar('---------------------------------------');
+            actualizarStock();
+            ventas.push(new Venta());
+            itemsEnCarrito = [];
+            const idUWeb = JSON.parse(localStorage.getItem('usuario')).idU;
+            usuarios[idUWeb].carrito = itemsEnCarrito;
+            localStorage.setItem('usuario', JSON.stringify(usuarios[idUWeb]));
+            mostrar('---------------------------------------');
+            mostrar("¡Gracias por comprar en nuestra tienda!");
+        }
+    } else {
+        mostrar("Su carrito está vacío.");
     }
 }
 // Se crea la función para agregar inicialmente productos a la tienda
@@ -114,30 +172,15 @@ add("iphone 13", 999, 10);
 add("iphone 12", 899, 10);
 add("iphone SE", 499, 10);
 add("iphone 11", 549, 10);
-// Comienzo de interacción con el usuario
-confirm ("¡Bienvenidos a nuestra tienda online!");
-confirm ("Antes que nada, te pediremos algunos datos...");
-// Se crea un nuevo usuario al cargar el sitio y se lo carga como objeto en el array usuarios []
-nuevoUsuario();
-confirm ("A continuación podrás agregar productos al carrito y solicitar el envío a tu domicilio.");
-confirm ("Vamos a iniciar tu pedido...");
-do {
-    let codigo = parseInt(prompt("Ingrese el código del producto que quiere agregar a su carrito: "));
-    let cantidad = parseInt(prompt(`Ingrese cantidad del producto ${codigo} que quiere comprar: `));
-    itemsEnCarrito.push(new Item(codigo, cantidad));
-    if (!confirm(`Se han agregado ${cantidad} unidades de producto ${codigo} a su carrito de compras. "ACEPTAR" para confirmar, "CANCELAR" para anular.`)) {
-        itemsEnCarrito.quitar(itemsEnCarrito[itemsEnCarrito.length - 1]);
-    }
-} while (confirm("¿Desea continuar comprando?"));
+// Se verifica si es la primera vez que el usuario se loguea
+checkUsuario();
+// Se verifica la preexistencia de un carrito
+checkCarrito();
+// Se agregan items al carrito
+shop();
+// Se muestra el carrito
 alert("Abra su consola para corroborar los productos en su carrito.");
 mostrar("Su carrito contiene: ");
 calcularCarrito();
-if (!confirm("Click en 'Aceptar' para pagar, o en 'Cancelar' para eliminar todos los items del carrito.")) {
-    itemsEnCarrito.splice();
-    mostrar("Lamentamos que se haya arrepentido. Puede volver cuando quiera.");
-} else {
-    alert(`Se debitará un total de USD ${total} de su tarjeta`);
-    actualizarStock();
-    ventas.push(new Venta());
-    mostrar("¡Gracias por comprar en nuestra tienda!");
-}
+// Se finaliza el proceso de compra
+checkOut();
