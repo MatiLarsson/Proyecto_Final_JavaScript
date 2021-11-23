@@ -40,6 +40,15 @@ function actualizarStock() {
             }
         }
     }
+    for (const producto of productos) {
+        if (producto.stock === 0) {
+            const p = document.getElementsByClassName('producto')[productos.indexOf(producto)];
+            p.children[4].innerHTML = "sin stock";
+            p.children[4].classList.remove('btn-primary');
+            p.children[4].classList.add('btn-secondary');
+            p.children[4].setAttribute('disabled', "");
+        }
+    }
 }
 // Se crean las clases del sitio y sus métodos
 class Producto {
@@ -59,6 +68,14 @@ class Producto {
     }
     reponer(cantidad) {
         this.stock += cantidad;
+        if (this.stock > 0) {
+            const p = document.getElementsByClassName('producto')[productos.indexOf(this)];
+            const b = p.children[4];
+            b.innerHTML = "comprar";
+            b.classList.remove('btn-secondary');
+            b.classList.add('btn-primary');
+            b.removeAttribute('disabled', "");
+        }
     }
 }
 class Usuario {
@@ -161,6 +178,20 @@ function checkOut() {
 function add(nombre, precio, cantidad) {
     productos.push(new Producto(nombre, precio, cantidad));
     productos[productos.length - 1].sumaIva();
+    if (productos[productos.length - 1].stock > 0) {
+        const p = document.getElementsByClassName('producto')[productos.indexOf(productos[productos.length - 1])];
+        const b = p.children[4];
+        b.innerHTML = "comprar";
+        b.classList.remove('btn-secondary');
+        b.classList.add('btn-primary');
+        b.removeAttribute('disabled', "");
+    } else {
+        const p = document.getElementsByClassName('producto')[productos.indexOf(producto)];
+        p.children[4].innerHTML = "sin stock";
+        p.children[4].classList.remove('btn-primary');
+        p.children[4].classList.add('btn-secondary');
+        p.children[4].setAttribute('disabled', "");
+    }
 }
 // Se agragan los productos de la tienda
 add("macbook pro", 2299, 10);
