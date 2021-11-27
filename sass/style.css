@@ -7,6 +7,12 @@
   background-color: lightgray;
 }
 
+.header .carrito {
+  width: 1.3rem;
+  -webkit-filter: invert(100%);
+          filter: invert(100%);
+}
+
 .main .banner {
   height: 225px;
   width: 400px;
