@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="sass/style.css">
     <title>iStore</title>
 </head>
@@ -54,91 +55,10 @@
             <div class="col-12 mt-3">
                 <h1 class="text-center mt-5">Mac</h1>
             </div>
-            <div class="col-12 col-md-4">
-                <div class="p-2 producto d-flex flex-column justify-content-center align-items-center">
-                    <img src="assets/images/products/macbookpro.png" alt="macbook pro">
-                    <p class="nombreProducto text-primary">MacBook Pro</p>
-                    <p class="text-secondary">Precio: USD 2.299</p>
-                    <p class="text-secondary d-none">Código: 0</p>
-                    <button type="button" class="comprar btn btn-primary rounded-pill">comprar</button>
-                </div>
-            </div>
-            <div class="col-12 col-md-4">
-                <div class="p-2 producto d-flex flex-column justify-content-center align-items-center">
-                    <img src="assets/images/products/macbookair.png" alt="macbook air">
-                    <p class="nombreProducto text-primary">MacBook Air</p>
-                    <p class="text-secondary">Precio: USD 1.449</p>
-                    <p class="text-secondary d-none">Código: 1</p>
-                    <button type="button" class="comprar btn btn-primary rounded-pill">comprar</button>
-                </div>
-            </div>
-            <div class="col-12 col-md-4">
-                <div class="p-2 producto d-flex flex-column justify-content-center align-items-center">
-                    <img src="assets/images/products/imac.png" alt="imac">
-                    <p class="nombreProducto text-primary">iMac</p>
-                    <p class="text-secondary">Precio: USD 2.999</p>
-                    <p class="text-secondary d-none">Código: 2</p>
-                    <button type="button" class="comprar btn btn-primary rounded-pill">comprar</button>
-                </div>
-            </div>
         </div>
         <div id="iphone" class="mt-5 row">
             <div class="col-12">
                 <h1 class="text-center">iPhone</h1>
-            </div>
-            <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-                <div class="p-2 producto d-flex flex-column justify-content-center align-items-center">
-                    <img src="assets/images/products/iphone13promax.png" alt="iphone 13 pro max">
-                    <p class="nombreProducto text-primary">iPhone 13 Pro Max</p>
-                    <p class="text-secondary">Precio: USD 1.299</p>
-                    <p class="text-secondary d-none">Código: 3</p>
-                    <button type="button" class="comprar btn btn-primary rounded-pill">comprar</button>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-                <div class="p-2 producto d-flex flex-column justify-content-center align-items-center">
-                    <img src="assets/images/products/iphone13pro.png" alt="iphone 13 pro">
-                    <p class="nombreProducto text-primary">iPhone 13 Pro</p>
-                    <p class="text-secondary">Precio: USD 1.199</p>
-                    <p class="text-secondary d-none">Código: 4</p>
-                    <button type="button" class="comprar btn btn-primary rounded-pill">comprar</button>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-                <div class="p-2 producto d-flex flex-column justify-content-center align-items-center">
-                    <img src="assets/images/products/iphone13.png" alt="iphone 13">
-                    <p class="nombreProducto text-primary">iPhone 13</p>
-                    <p class="text-secondary">Precio: USD 999</p>
-                    <p class="text-secondary d-none">Código: 5</p>
-                    <button type="button" class="comprar btn btn-primary rounded-pill">comprar</button>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-                <div class="p-2 producto d-flex flex-column justify-content-center align-items-center">
-                    <img src="assets/images/products/iphone12.png" alt="iphone 12">
-                    <p class="nombreProducto text-primary">iPhone 12</p>
-                    <p class="text-secondary">Precio: USD 899</p>
-                    <p class="text-secondary d-none">Código: 6</p>
-                    <button type="button" class="comprar btn btn-primary rounded-pill">comprar</button>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-                <div class="p-2 producto d-flex flex-column justify-content-center align-items-center">
-                    <img src="assets/images/products/iphoneSE.png" alt="iphone SE">
-                    <p class="nombreProducto text-primary">iPhone SE</p>
-                    <p class="text-secondary">Precio: USD 499</p>
-                    <p class="text-secondary d-none">Código: 7</p>
-                    <button type="button" class="comprar btn btn-primary rounded-pill">comprar</button>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-                <div class="p-2 producto d-flex flex-column justify-content-center align-items-center">
-                    <img src="assets/images/products/iphone11.png" alt="iphone 11">
-                    <p class="nombreProducto text-primary">iPhone 11</p>
-                    <p class="text-secondary">Precio: USD 549</p>
-                    <p class="text-secondary d-none">Código: 8</p>
-                    <button type="button" class="comprar btn btn-primary rounded-pill">comprar</button>
-                </div>
             </div>
         </div>
     </div>
@@ -196,23 +116,22 @@
     </div>
     <!-- Modal para abrir el carrito de compras -->
     <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Carrito</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div id="carrito" class="modal-body">
-                    <div>Debes registrarte para acceder a tu carrito.</div>
                 </div>
                 <div class="modal-footer">
-                    <button id="vaciar" type="button" class="btn btn-secondary d-none">Vaciar carrito</button>
-                    <button id="pagar" type="button" class="btn btn-primary d-none">Pagar</button>
+                    <button id="vaciar" type="button" class="btn btn-secondary">Vaciar carrito</button>
+                    <button id="pagar" type="button" class="btn btn-primary">Pagar</button>
                 </div>
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>

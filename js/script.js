@@ -29,22 +29,29 @@ let nombreUsuario;
 let apellidoUsuario;
 let emailUsuario;
 let direccionUsuario;
-let botonesComprar = document.querySelectorAll('.comprar');
 let botonRegistrarmeHeader = document.getElementById('btn_registrarme_header');
 let saludoHeader = document.getElementById('saludo');
 let botonRegistrarme = document.getElementById('btn_registrarme');
+let botonesComprar = document.querySelectorAll('.comprar');
 let botonCarrito = document.getElementById('carritoHeader');
 let contenidoCarrito = document.getElementById('carrito');
 let botonVaciarCarrito = document.getElementById('vaciar');
 let botonPagar = document.getElementById('pagar');
+let formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+});
+let trashButtons = HTMLCollection;
 
 // Clases y sus métodos
 
 class Producto {
-    constructor(nombre, precio, stock) {
+    constructor(nombre, precio, stock, img, categoria) {
         this.nombre = nombre.toUpperCase();
         this.precio = parseFloat(precio);
         this.stock = parseInt(stock);
+        this.img = img;
+        this.categoria = categoria.toUpperCase();
         this.idP = Producto.ID;
         Producto.ID++;
     }
@@ -117,24 +124,71 @@ function displayCarrito() {
     if (carritoBackEnd.length > 0) {
         titulo.innerHTML = `Tu carrito contiene:`
         cart.appendChild(titulo);
-        const ul = document.createElement('ul');
-        cart.appendChild(ul);
+        const table = document.createElement('table');
+        cart.appendChild(table);
+        const trHeader = document.createElement('tr');
+        table.appendChild(trHeader);
+        const thImagen = document.createElement('th');
+        trHeader.appendChild(thImagen);
+        const thNombreProducto = document.createElement('th');
+        thNombreProducto.textContent = 'Producto';
+        trHeader.appendChild(thNombreProducto);
+        const thPrecioProducto = document.createElement('th');
+        thPrecioProducto.textContent = 'Precio';
+        trHeader.appendChild(thPrecioProducto);
+        const thCantidadProducto = document.createElement('th');
+        thCantidadProducto.textContent = 'Cantidad';
+        trHeader.appendChild(thCantidadProducto);
+        const thSumatoriaItem = document.createElement('th');
+        thSumatoriaItem.textContent = 'Total';
+        trHeader.appendChild(thSumatoriaItem);
+        const thToTrashButtons = document.createElement('th');
+        trHeader.appendChild(thToTrashButtons);
+        table.appendChild(trHeader);
         for (let item of carritoBackEnd) {
             for (let producto of productos) {
                 if (producto.idP === item.idP) {
                     let sumatoriaItem = item.cantidad * producto.precio;
                     total += sumatoriaItem;
-                    const li = document.createElement('li');
-                    li.innerHTML = `${producto.nombre}: ${item.cantidad} x USD${producto.precio} = USD${sumatoriaItem}`;
-                    ul.appendChild(li);
+                    const trContent = document.createElement('tr');
+                    const td1 = document.createElement('td');
+                    const img = document.createElement('img');
+                    img.src = producto.img;
+                    td1.appendChild(img);
+                    trContent.appendChild(td1);
+                    const td2 = document.createElement('td');
+                    td2.textContent = producto.nombre;
+                    trContent.appendChild(td2);
+                    const td3 = document.createElement('td');
+                    td3.textContent = formatter.format(producto.precio);
+                    trContent.appendChild(td3);
+                    const td4 = document.createElement('td');
+                    td4.textContent = item.cantidad;
+                    trContent.appendChild(td4);
+                    const td5 = document.createElement('td');
+                    td5.textContent = formatter.format(sumatoriaItem);
+                    trContent.appendChild(td5);
+                    const td6 = document.createElement('td');
+                    const toTrashButton = document.createElement('button');
+                    toTrashButton.setAttribute('type', 'button');
+                    toTrashButton.classList.add('trashButton');
+                    toTrashButton.setAttribute('id', `${item.idP}`);
+                    const trashImage = document.createElement('img');
+                    trashImage.src = 'assets/images/logos/trash.svg';
+                    toTrashButton.appendChild(trashImage);
+                    td6.appendChild(toTrashButton);
+                    trContent.appendChild(td6);
+                    table.appendChild(trContent);
                 }
             }
         }
         const suma = document.createElement('p');
-        suma.innerHTML = `Total del carrito: USD ${total}`;
+        suma.innerHTML = `Total a Pagar: ${formatter.format(total)}`;
         cart.appendChild(suma);
+        trashButtons = document.getElementsByClassName('trashButton');
+        activateTrashButtons();
     } else {
-        titulo.innerHTML = `Tu carrito está vacío.`
+        titulo.innerHTML = 'Tu carrito está vacío.'
         cart.appendChild(titulo);
     }
 }
@@ -182,7 +236,7 @@ function updateBuyButtons() {
 }
 
 function registrado() {
-    if (JSON.parse(localStorage.getItem('usuario')) != null && JSON.parse(localStorage.getItem('usuario')).length != 0) {
+    if (JSON.parse(localStorage.getItem('usuario')) != null && JSON.parse(localStorage.getItem('usuario')).length != 0 && JSON.parse(localStorage.getItem('usuario')).nombre != 'ANONIMO') {
         return true;
     } else {
         return false;
@@ -201,20 +255,9 @@ function displaySaludo() {
     if (registrado()) {
         const name = JSON.parse(localStorage.getItem(('usuario'))).nombre;
         const surname = JSON.parse(localStorage.getItem(('usuario'))).apellido;
-        saludoHeader.children[0].innerHTML = `Bienvenido ${name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()} ${surname.charAt(0).toUpperCase() + surname.slice(1).toLowerCase()}`;
+        saludoHeader.children[0].innerHTML = `Bienvenido/a ${name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()} ${surname.charAt(0).toUpperCase() + surname.slice(1).toLowerCase()}`;
         if (saludoHeader.classList.contains('d-none')) {
             saludoHeader.classList.remove('d-none');
-        }
-    }
-}
-
-function activarCarrito() {
-    if (registrado()) {
-        if (botonVaciarCarrito.classList.contains('d-none')) {
-            botonVaciarCarrito.classList.remove('d-none');
-        }
-        if (botonPagar.classList.contains('d-none')) {
-            botonPagar.classList.remove('d-none');
         }
     }
 }
@@ -224,29 +267,85 @@ function checkUser() {
         desactivarRegistro();
         displaySaludo();
         pullCarrito();
-        activarCarrito();
+    } else {
+        usuarios.push(new Usuario('anonimo', '', '', ''));
+        localStorage.setItem('usuario', JSON.stringify(usuarios[usuarios.length - 1]));
     }
 }
 
-function add(nombre, precio, cantidad) {
-    productos.push(new Producto(nombre, precio, cantidad));
+function add(nombre, precio, cantidad, img, categoria) {
+    productos.push(new Producto(nombre, precio, cantidad, img, categoria));
     productos[productos.length - 1].sumaIva();
-    updateBuyButtons();
+}
+
+function mostrarProductos() {
+    productos.forEach((producto) => {
+        let nodoPadre;
+        if (producto.categoria === 'MAC') {
+            nodoPadre = document.querySelector('#mac');
+        }
+
+        if (producto.categoria === 'IPHONE') {
+            nodoPadre = document.querySelector('#iphone');
+        }
+
+        const divContenedor = document.createElement('div');
+        divContenedor.classList.add('col-12', 'col-md-4');
+
+        const divProducto = document.createElement('div');
+        divProducto.classList.add('producto', 'p2', 'd-flex', 'flex-column', 'justify-content-center', 'align-items-center');
+
+        const imagenProd = document.createElement('img');
+        imagenProd.src = producto.img;
+        imagenProd.setAttribute('alt', `${producto.nombre}`);
+
+        const nombreProd = document.createElement('p');
+        nombreProd.classList.add('nombreProducto', 'text-primary');
+        nombreProd.textContent = producto.nombre;
+
+        const precioProd = document.createElement('p');
+        precioProd.classList.add('text-secondary');
+        precioProd.textContent = `${formatter.format(producto.precio)}`;
+
+        const codigoProd = document.createElement('p');
+        codigoProd.classList.add('text-secondary', 'd-none');
+        codigoProd.textContent = `Código: ${producto.idP}`;
+
+        const botonProd = document.createElement('button');
+        botonProd.setAttribute('type', 'button');
+        botonProd.classList.add('comprar', 'btn', 'btn-primary', 'rounded-pill');
+        botonProd.textContent = 'comprar';
+
+        nodoPadre.appendChild(divContenedor);
+        divContenedor.appendChild(divProducto);
+        divProducto.appendChild(imagenProd);
+        divProducto.appendChild(nombreProd);
+        divProducto.appendChild(precioProd);
+        divProducto.appendChild(codigoProd);
+        divProducto.appendChild(botonProd);
+    })
+    botonesComprar = document.querySelectorAll('.comprar');
 }
 
 // Carga de productos a la tienda (backend):
 
-add("macbook pro", 2299, 2);
-add("macbook air", 1449, 2);
-add("imac", 2999, 2);
-add("iphone 13 pro max", 1299, 2);
-add("iphone 13 pro", 1199, 2);
-add("iphone 13", 999, 2);
-add("iphone 12", 899, 2);
-add("iphone SE", 499, 2);
-add("iphone 11", 549, 2);
+add("macbook pro", 2299, 2, "assets/images/products/macbookpro.png", 'mac');
+add("macbook air", 1449, 2, "assets/images/products/macbookair.png", 'mac');
+add("imac", 2999, 2, "assets/images/products/imac.png", 'mac');
+add("iphone 13 pro max", 1299, 2, "assets/images/products/iphone13promax.png", 'iphone');
+add("iphone 13 pro", 1199, 2, "assets/images/products/iphone13pro.png", 'iphone');
+add("iphone 13", 999, 2, "assets/images/products/iphone13.png", 'iphone');
+add("iphone 12", 899, 2, "assets/images/products/iphone12.png", 'iphone');
+add("iphone SE", 499, 2, "assets/images/products/iphoneSE.png", 'iphone');
+add("iphone 11", 549, 2, "assets/images/products/iphone11.png", 'iphone');
 
 // Event listeners:
+
+document.addEventListener("DOMContentLoaded", () => {
+    mostrarProductos();
+    checkUser();
+    comprar();
+});
 
 document.getElementById('inp_nombre').onblur = () => {nombreUsuario = document.getElementById('inp_nombre').value};
 document.getElementById('inp_apellido').onblur = () => {apellidoUsuario = document.getElementById('inp_apellido').value};
@@ -261,48 +360,95 @@ botonRegistrarmeHeader.onclick = () => {
 }
 
 botonRegistrarme.onclick = () => {
-    usuarios.push(new Usuario(nombreUsuario, apellidoUsuario, emailUsuario, direccionUsuario));
-    localStorage.setItem('usuario', JSON.stringify(usuarios[usuarios.length - 1]));
+    usuarioPrevioEnMemoriaLocal = JSON.parse(localStorage.getItem('usuario'));
+    usuarioPrevioEnBackEnd = usuarios.find(usuario => usuario.idU === usuarioPrevioEnMemoriaLocal.idU);
+    usuarioPrevioEnBackEnd.nombre = nombreUsuario;
+    usuarioPrevioEnBackEnd.apellido = apellidoUsuario;
+    usuarioPrevioEnBackEnd.email = emailUsuario;
+    usuarioPrevioEnBackEnd.direccion = direccionUsuario;
+    localStorage.setItem('usuario', JSON.stringify(usuarioPrevioEnBackEnd));
     checkUser();
 }
 
-botonesComprar.forEach(botonComprar => {
-    botonComprar.addEventListener('click', () => {
-        if (registrado()) {
-            const nombreDelProductoAgregado = botonComprar.parentNode.children[1].innerHTML.toUpperCase();
-            const productoAgregado = productos.find(obj => obj.nombre === nombreDelProductoAgregado);
-            const codigo = productoAgregado.idP;
-            carritoBackEnd.push(new Item(codigo, 1));
-            if (!confirm(`Se ha agregado 1 unidad de ${productoAgregado.nombre} a su carrito de compras. "ACEPTAR" para confirmar, "CANCELAR" para anular.`)) {
-                carritoBackEnd.pop(carritoBackEnd[carritoBackEnd.length - 1]);
-            } else {
-                productoAgregado.vender(1);
-                alert(`Se ha removido 1 unidad del stock del producto ${productoAgregado.nombre}.`);
-                updateBuyButtons();
-                pushCarrito();
+function activateTrashButtons() {
+    for (const trashButton of trashButtons) {
+        trashButton.addEventListener('click', () => {
+            const idOfProductToTrash = parseInt(trashButton.getAttribute('id'));
+            const itemToTrash = carritoBackEnd.find(item => item.idP === idOfProductToTrash);
+            const index = carritoBackEnd.indexOf(itemToTrash);
+            if (productos.find(obj => obj.idP === itemToTrash.idP)) {
+                const p = productos.find(obj => obj.idP === itemToTrash.idP);
+                p.reponer(itemToTrash.cantidad);
             }
-        } else {
-            alert('¡Primero debes registrarte!');
-        }
+            carritoBackEnd.splice(index, 1);
+            pushCarrito();
+            displayCarrito();
+        });
+    }
+}
+
+function comprar()  {
+    botonesComprar.forEach(botonComprar => {
+        botonComprar.addEventListener('click', () => {
+            const nombreDelProductoAgregado = botonComprar.parentNode.children[1].innerHTML.toUpperCase();
+            const productoAgregado = productos.find(producto => producto.nombre === nombreDelProductoAgregado);
+            const codigo = productoAgregado.idP;
+            if (carritoBackEnd.some(item => item.idP === codigo)) {
+                const itemExistenteEnCarrito = carritoBackEnd.find(item => item.idP === codigo);
+                itemExistenteEnCarrito.cantidad += 1;
+            } else {
+                carritoBackEnd.push(new Item(codigo, 1));
+            }
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                text: "¡Agregado al carrito!",
+                showConfirmButton: false,
+                timer: 800
+            });
+            productoAgregado.vender(1);
+            updateBuyButtons();
+            pushCarrito();
+        });
     });
-});
+}
 
 botonCarrito.onclick = () => {
-    if (registrado()) {
-        displayCarrito();
-    }
+    displayCarrito();
 }
 
 botonPagar.onclick = () => {
     if (carritoBackEnd.length > 0) {
-        alert(`Se debitará un total de USD ${total} de su tarjeta`);
-        alert("Su carrito ya fué abonado con éxito ¡Gracias por comprar en nuestra tienda!");
-        ventas.push(new Venta());
-        carritoBackEnd = [];
-        pushCarrito();
-        displayCarrito();
+        if (registrado()) {
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: "¡Pagado!",
+                text: "¡Gracias por comprar en nuestra tienda!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            ventas.push(new Venta());
+            carritoBackEnd = [];
+            pushCarrito();
+            displayCarrito();
+        } else {
+            Swal.fire({
+                position: 'center',
+                icon: 'info',
+                text: '¡Primero debes registrarte!',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
     } else {
-        alert ("Usted no tiene nada en su carrito.");
+        Swal.fire({
+            position: 'center',
+            icon: 'error',
+            text: '¡Tu carrito está vacío!',
+            showConfirmButton: false,
+            timer: 1500
+        });
     }
 }
 
@@ -321,7 +467,3 @@ botonVaciarCarrito.onclick = () => {
     displayCarrito();
 }
 
-// Script que se corre al cargar la página inicialmente:
-
-checkUser();
-pullCarrito();

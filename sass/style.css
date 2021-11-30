@@ -1,3 +1,10 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
 .header .logo {
   width: 41.4px;
   height: 45.9px;
@@ -73,5 +80,44 @@
           box-sizing: border-box;
   height: 50%;
   width: 60%;
+}
+
+#carrito p {
+  padding: 20px 0;
+  text-align: center;
+  font-weight: bold;
+}
+
+#carrito table {
+  margin: auto;
+  font-size: x-small;
+}
+
+#carrito table td, #carrito table th {
+  text-align: center;
+  padding: 0 10px;
+}
+
+#carrito table button {
+  border: none;
+  background: none;
+  width: 15px;
+}
+
+#carrito table button img {
+  width: 100%;
+}
+
+@media screen and (min-width: 992px) {
+  #carrito table {
+    font-size: small;
+  }
+  #carrito table td, #carrito table th {
+    padding: 0 20px;
+  }
+}
+
+#carrito img {
+  width: 40px;
 }
 /*# sourceMappingURL=style.css.map */
