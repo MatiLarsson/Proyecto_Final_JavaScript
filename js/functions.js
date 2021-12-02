@@ -1,116 +1,3 @@
-/*
-Comentarios sobre el funcionamiento de la tienda:
-
-El carrito del usuario asi como tambien sus datos se almacenan en el local storage.
-Al cargar la pagina, js busca en la memoria local si el usuario ya se habia registrado anteriormente y trae su informacion asi como
-su carrito en el estado en el que lo dejo.
-Se habilita la compra de los productos solo si el usuario ya se encuentra registrado.
-Al ir añadiendo productos js lleva un carrito que es pusheado al local Storage inmediatamente luego de cada adición de producto.
-Al arrepentirse de compras o al vaciar el carrito el stock de los productos en cuestion es devuelto al stock de la tienda.
-Al pagar, se crea un objeto venta y se remueve el stock del/los productos comprados.
-Vale mencionar que el stock de los productos los lleva js y no el local storage. Por ello, al recargar la pagina, si hubieren
-ocurrido ventas en sesiones anteriores, el stock se renueva nuevamente a default (2 unidades de cada producto).
-
-*/
-
-//  Arrays
-
-let productos = [];
-let usuarios = [];
-let carritoBackEnd = [];
-let ventas = [];
-
-// Variables globales
-
-let total = 0;
-let hoy = new Date();
-let fechaActual = hoy.getDate() + '/' + (hoy.getMonth() + 1) + '/' + hoy.getFullYear();
-let nombreUsuario;
-let apellidoUsuario;
-let emailUsuario;
-let direccionUsuario;
-let botonRegistrarmeHeader = document.getElementById('btn_registrarme_header');
-let saludoHeader = document.getElementById('saludo');
-let botonRegistrarme = document.getElementById('btn_registrarme');
-let botonCambiarUsuario = document.getElementById('btn_changeUser');
-let botonesComprar = document.querySelectorAll('.comprar');
-let botonCarrito = document.getElementById('carritoHeader');
-let contenidoCarrito = document.getElementById('carrito');
-let botonVaciarCarrito = document.getElementById('vaciar');
-let botonPagar = document.getElementById('pagar');
-let formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-});
-let minusButtons = HTMLCollection;
-let plusButtons = HTMLCollection;
-let trashButtons = HTMLCollection;
-let divErrorName = document.getElementById('inp_errorName');
-let divErrorSurname = document.getElementById('inp_errorSurname');
-let divErrorEmail = document.getElementById('inp_errorEmail');
-let divErrorAdress = document.getElementById('inp_errorAdress');
-
-// Clases y sus métodos
-
-class Producto {
-    constructor(nombre, precio, stock, img, categoria) {
-        this.nombre = nombre.toUpperCase();
-        this.precio = parseFloat(precio);
-        this.stock = parseInt(stock);
-        this.img = img;
-        this.categoria = categoria.toUpperCase();
-        this.idP = Producto.ID;
-        Producto.ID++;
-    }
-    static ID = 0
-    sumaIva() {
-        this.precio = this.precio * 1.21;
-    }
-    vender(cantidad) {
-        this.stock -= cantidad;
-    }
-    reponer(cantidad) {
-        this.stock += cantidad;
-        if (this.stock > 0) {
-            const p = document.getElementsByClassName('producto')[productos.indexOf(this)];
-            const b = p.children[4];
-            b.innerHTML = "comprar";
-            b.classList.remove('btn-secondary');
-            b.classList.add('btn-primary');
-            b.removeAttribute('disabled', "");
-        }
-    }
-}
-
-class Item {
-    constructor(idP, cantidad) {
-        this.idP = parseInt(idP);
-        this.cantidad = parseInt(cantidad);
-    }
-}
-
-class Usuario {
-    constructor(nombre, apellido, email, direccionDeEnvio) {
-        this.nombre = nombre.toUpperCase();
-        this.apellido = apellido.toUpperCase();
-        this.email = email;
-        this.direccionDeEnvio = direccionDeEnvio.toUpperCase();
-        this.carrito = carritoBackEnd;
-        this.idU = Usuario.ID;
-        Usuario.ID++
-    }
-    static ID = 0;
-}
-
-class Venta {
-    constructor() {
-        this.fecha = fechaActual;
-        this.carritoBackEnd = carritoBackEnd;
-        this.total = total;
-        this.usuario = JSON.parse(localStorage.getItem('usuario'));
-    }
-}
-
 // Funciones:
 
 function mostrar(element) {
@@ -265,6 +152,38 @@ function updateBuyButtons() {
     }
 }
 
+function isNameOk() {
+    if (nombreUsuario.length > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isSurnameOk() {
+    if (apellidoUsuario.length > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isEmailOk() {
+    if (emailUsuario.length > 0 && emailUsuario.includes('@')) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isAdressOk() {
+    if (direccionUsuario.length > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function registrado() {
     if (JSON.parse(localStorage.getItem('usuario')) != null && JSON.parse(localStorage.getItem('usuario')).length != 0 && JSON.parse(localStorage.getItem('usuario')).nombre != 'ANONIMO') {
         return true;
@@ -319,6 +238,21 @@ function add(nombre, precio, cantidad, img, categoria) {
     productos.push(new Producto(nombre, precio, cantidad, img, categoria));
     productos[productos.length - 1].sumaIva();
 }
+// Carga de productos a la tienda (backend):
+
+function cargarProductos() {
+    add("macbook pro", 2299, 2, "assets/images/products/macbookpro.png", 'mac');
+    add("macbook air", 1449, 2, "assets/images/products/macbookair.png", 'mac');
+    add("imac", 2999, 2, "assets/images/products/imac.png", 'mac');
+    add("iphone 13 pro max", 1299, 2, "assets/images/products/iphone13promax.png", 'iphone');
+    add("iphone 13 pro", 1199, 2, "assets/images/products/iphone13pro.png", 'iphone');
+    add("iphone 13", 999, 2, "assets/images/products/iphone13.png", 'iphone');
+    add("iphone 12", 899, 2, "assets/images/products/iphone12.png", 'iphone');
+    add("iphone SE", 499, 2, "assets/images/products/iphoneSE.png", 'iphone');
+    add("iphone 11", 549, 2, "assets/images/products/iphone11.png", 'iphone');
+}
+
+// Carga de productos al FrontEnd
 
 function mostrarProductos() {
     productos.forEach((producto) => {
@@ -367,172 +301,6 @@ function mostrarProductos() {
         divProducto.appendChild(botonProd);
     })
     botonesComprar = document.querySelectorAll('.comprar');
-}
-
-// Carga de productos a la tienda (backend):
-
-add("macbook pro", 2299, 2, "assets/images/products/macbookpro.png", 'mac');
-add("macbook air", 1449, 2, "assets/images/products/macbookair.png", 'mac');
-add("imac", 2999, 2, "assets/images/products/imac.png", 'mac');
-add("iphone 13 pro max", 1299, 2, "assets/images/products/iphone13promax.png", 'iphone');
-add("iphone 13 pro", 1199, 2, "assets/images/products/iphone13pro.png", 'iphone');
-add("iphone 13", 999, 2, "assets/images/products/iphone13.png", 'iphone');
-add("iphone 12", 899, 2, "assets/images/products/iphone12.png", 'iphone');
-add("iphone SE", 499, 2, "assets/images/products/iphoneSE.png", 'iphone');
-add("iphone 11", 549, 2, "assets/images/products/iphone11.png", 'iphone');
-
-// Event listeners:
-
-document.addEventListener("DOMContentLoaded", () => {
-    mostrarProductos();
-    checkUser();
-    comprar();
-});
-
-function isNameOk() {
-    if (nombreUsuario.length > 0) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function isSurnameOk() {
-    if (apellidoUsuario.length > 0) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function isEmailOk() {
-    if (emailUsuario.length > 0 && emailUsuario.includes('@')) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function isAdressOk() {
-    if (direccionUsuario.length > 0) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-document.getElementById('inp_nombre').onblur = () => {
-    nombreUsuario = document.getElementById('inp_nombre').value;
-    divErrorName.innerHTML = '';
-    if (!isNameOk()) {
-        divErrorName.textContent = 'No es un nombre válido.';
-    }
-    if (isNameOk() && isSurnameOk() && isEmailOk() && isAdressOk()) {
-        if (botonRegistrarme.hasAttribute('disabled')) {
-            botonRegistrarme.removeAttribute('disabled');
-        }
-    } else {
-        if (!botonRegistrarme.hasAttribute('disabled')) {
-            botonRegistrarme.setAttribute('disabled', '');
-        }
-    }
-}
-
-document.getElementById('inp_nombre').onfocus = () => {
-    if (!botonRegistrarme.hasAttribute('disabled')) {
-        botonRegistrarme.setAttribute('disabled', '');
-    }
-}
-
-document.getElementById('inp_apellido').onblur = () => {
-    apellidoUsuario = document.getElementById('inp_apellido').value;
-    divErrorSurname.innerHTML = '';
-    if (!isSurnameOk()) {
-        divErrorSurname.textContent = 'No es un apellido válido.';
-    }
-    if (isNameOk() && isSurnameOk() && isEmailOk() && isAdressOk()) {
-        if (botonRegistrarme.hasAttribute('disabled')) {
-            botonRegistrarme.removeAttribute('disabled');
-        }
-    } else {
-        if (!botonRegistrarme.hasAttribute('disabled')) {
-            botonRegistrarme.setAttribute('disabled', '');
-        }
-    }
-}
-
-document.getElementById('inp_apellido').onfocus = () => {
-    if (!botonRegistrarme.hasAttribute('disabled')) {
-        botonRegistrarme.setAttribute('disabled', '');
-    }
-}
-
-document.getElementById('inp_email').onblur = () => {
-    emailUsuario = document.getElementById('inp_email').value;
-    divErrorEmail.innerHTML = '';
-    if (!isEmailOk()) {
-        divErrorEmail.textContent = 'No es un e-mail válido.';
-    }
-    if (isNameOk() && isSurnameOk() && isEmailOk() && isAdressOk()) {
-        if (botonRegistrarme.hasAttribute('disabled')) {
-            botonRegistrarme.removeAttribute('disabled');
-        }
-    } else {
-        if (!botonRegistrarme.hasAttribute('disabled')) {
-            botonRegistrarme.setAttribute('disabled', '');
-        }
-    }
-}
-
-document.getElementById('inp_email').onfocus = () => {
-    if (!botonRegistrarme.hasAttribute('disabled')) {
-        botonRegistrarme.setAttribute('disabled', '');
-    }
-}
-
-document.getElementById('inp_direccion').onblur = () => {
-    direccionUsuario = document.getElementById('inp_direccion').value;
-    divErrorAdress.innerHTML = '';
-    if (!isAdressOk()) {
-        divErrorAdress.textContent = 'No es una dirección válida.';
-    }
-    if (isNameOk() && isSurnameOk() && isEmailOk() && isAdressOk()) {
-        if (botonRegistrarme.hasAttribute('disabled')) {
-            botonRegistrarme.removeAttribute('disabled');
-        }
-    } else {
-        if (!botonRegistrarme.hasAttribute('disabled')) {
-            botonRegistrarme.setAttribute('disabled', '');
-        }
-    }
-}
-
-document.getElementById('inp_direccion').onfocus = () => {
-    if (!botonRegistrarme.hasAttribute('disabled')) {
-        botonRegistrarme.setAttribute('disabled', '');
-    }
-}
-
-botonRegistrarmeHeader.onclick = () => {
-    document.getElementById('inp_nombre').value = "";
-    document.getElementById('inp_apellido').value = "";
-    document.getElementById('inp_email').value = "";
-    document.getElementById('inp_direccion').value = "";
-    divErrorName.innerHTML = '';
-    divErrorSurname.innerHTML = '';
-    divErrorEmail.innerHTML = '';
-    divErrorAdress.innerHTML = '';
-}
-
-botonRegistrarme.onclick = () => {
-    usuarioPrevioEnMemoriaLocal = JSON.parse(localStorage.getItem('usuario'));
-    usuarioPrevioEnBackEnd = usuarios.find(usuario => usuario.idU === usuarioPrevioEnMemoriaLocal.idU);
-    usuarioPrevioEnBackEnd.nombre = nombreUsuario;
-    usuarioPrevioEnBackEnd.apellido = apellidoUsuario;
-    usuarioPrevioEnBackEnd.email = emailUsuario;
-    usuarioPrevioEnBackEnd.direccion = direccionUsuario;
-    localStorage.setItem('usuario', JSON.stringify(usuarioPrevioEnBackEnd));
-    checkUser();
 }
 
 function activateMinusButtons() {
@@ -622,71 +390,3 @@ function comprar()  {
     });
 }
 
-botonCarrito.onclick = () => {
-    displayCarrito();
-}
-
-botonPagar.onclick = () => {
-    if (carritoBackEnd.length > 0) {
-        if (registrado()) {
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: "¡Pagado!",
-                text: "¡Gracias por comprar en nuestra tienda!",
-                showConfirmButton: false,
-                timer: 1500
-            });
-            ventas.push(new Venta());
-            carritoBackEnd = [];
-            pushCarrito();
-            displayCarrito();
-        } else {
-            Swal.fire({
-                position: 'center',
-                icon: 'info',
-                text: '¡Primero debes registrarte!',
-                showConfirmButton: false,
-                timer: 1500
-            });
-        }
-    } else {
-        Swal.fire({
-            position: 'center',
-            icon: 'error',
-            text: '¡Tu carrito está vacío!',
-            showConfirmButton: false,
-            timer: 1500
-        });
-    }
-}
-
-botonVaciarCarrito.onclick = () => {
-    if (carritoBackEnd.length > 0) {
-        for (const item of carritoBackEnd) {
-            if (productos.find(obj => obj.idP === item.idP)) {
-                const p = productos.find(obj => obj.idP === item.idP);
-                p.reponer(item.cantidad);
-            }
-        }
-    }
-    carritoBackEnd = [];
-    pushCarrito();
-    updateBuyButtons();
-    displayCarrito();
-}
-
-botonCambiarUsuario.onclick = () => {
-    usuarios = [];
-    usuarios.push(new Usuario('anonimo', '', '', ''));
-    localStorage.setItem('usuario', JSON.stringify(usuarios[usuarios.length - 1]));
-    desactivarSaludo();
-    displayRegistro();
-    Swal.fire({
-        position: 'center',
-        icon: 'success',
-        text: "Usuario eliminado. Puedes registrarte o continuar con una compra anónima.",
-        showConfirmButton: false,
-        timer: 2500
-    });
-}
