@@ -36,7 +36,7 @@
                         </a>
                     </li>
                     <li id="saludo" class="nav-item d-none">
-                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#userModal">
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#notUserModal">
                         </a>
                     </li>
                     <li id="carritoHeader" class="nav-item">
@@ -89,28 +89,48 @@
                 </div>
                 <form id="formularioRegistro">
                     <div class="modal-body">
+                        <div>
+                        </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">Nombre</span>
                             <input id="inp_nombre" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
                         </div>
+                        <div id='inp_errorName' class="inp_errores"></div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">Apellido</span>
                             <input id="inp_apellido"type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
                         </div>
+                        <div id='inp_errorSurname' class="inp_errores"></div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">E-mail</span>
                             <input id="inp_email" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
                         </div>
+                        <div id='inp_errorEmail' class="inp_errores"></div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">Tu dirección para envíos</span>
                             <input id="inp_direccion" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
                         </div>
+                        <div id='inp_errorAdress' class="inp_errores"></div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button id="btn_registrarme" type="button" class="btn btn-primary" data-bs-dismiss="modal">Registrarme</button>
+                        <button id="btn_registrarme" type="button" class="btn btn-primary" data-bs-dismiss="modal" disabled>Registrarme</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="notUserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">¿No reconoces a este usuario?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">¡Sí, está OK!</button>
+                    <button id="btn_changeUser" type="button" class="btn btn-danger" data-bs-dismiss="modal">¡No lo reconozco!</button>
+                </div>
             </div>
         </div>
     </div>

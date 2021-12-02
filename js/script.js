@@ -32,6 +32,7 @@ let direccionUsuario;
 let botonRegistrarmeHeader = document.getElementById('btn_registrarme_header');
 let saludoHeader = document.getElementById('saludo');
 let botonRegistrarme = document.getElementById('btn_registrarme');
+let botonCambiarUsuario = document.getElementById('btn_changeUser');
 let botonesComprar = document.querySelectorAll('.comprar');
 let botonCarrito = document.getElementById('carritoHeader');
 let contenidoCarrito = document.getElementById('carrito');
@@ -41,7 +42,13 @@ let formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
 });
+let minusButtons = HTMLCollection;
+let plusButtons = HTMLCollection;
 let trashButtons = HTMLCollection;
+let divErrorName = document.getElementById('inp_errorName');
+let divErrorSurname = document.getElementById('inp_errorSurname');
+let divErrorEmail = document.getElementById('inp_errorEmail');
+let divErrorAdress = document.getElementById('inp_errorAdress');
 
 // Clases y sus métodos
 
@@ -163,7 +170,25 @@ function displayCarrito() {
                     td3.textContent = formatter.format(producto.precio);
                     trContent.appendChild(td3);
                     const td4 = document.createElement('td');
-                    td4.textContent = item.cantidad;
+                    const minusButton = document.createElement('button');
+                    minusButton.setAttribute('type', 'button');
+                    minusButton.setAttribute('id', `minus_${item.idP}`);
+                    minusButton.classList.add('minusButton');
+                    const minusImg = document.createElement('img');
+                    minusImg.src = 'assets/images/logos/dash-square.svg';
+                    const span = document.createElement('span');
+                    span.textContent = item.cantidad;
+                    const plusButton = document.createElement('button');
+                    plusButton.setAttribute('type', 'button');
+                    plusButton.setAttribute('id', `plus_${item.idP}`);
+                    plusButton.classList.add('plusButton');
+                    const plusImg = document.createElement('img');
+                    plusImg.src = 'assets/images/logos/plus-square.svg';
+                    minusButton.appendChild(minusImg);
+                    plusButton.appendChild(plusImg);
+                    td4.appendChild(minusButton);
+                    td4.appendChild(span);
+                    td4.appendChild(plusButton);
                     trContent.appendChild(td4);
                     const td5 = document.createElement('td');
                     td5.textContent = formatter.format(sumatoriaItem);
@@ -185,8 +210,13 @@ function displayCarrito() {
         const suma = document.createElement('p');
         suma.innerHTML = `Total a Pagar: ${formatter.format(total)}`;
         cart.appendChild(suma);
+        minusButtons = document.getElementsByClassName('minusButton');
+        plusButtons = document.getElementsByClassName('plusButton');
         trashButtons = document.getElementsByClassName('trashButton');
+        activateMinusButtons();
+        activatePlusButtons();
         activateTrashButtons();
+
     } else {
         titulo.innerHTML = 'Tu carrito está vacío.'
         cart.appendChild(titulo);
@@ -248,6 +278,18 @@ function desactivarRegistro() {
         if (!(botonRegistrarmeHeader.classList.contains('d-none'))) {
             botonRegistrarmeHeader.classList.add('d-none');
         }
+    }
+}
+
+function displayRegistro() {
+    if ((botonRegistrarmeHeader.classList.contains('d-none'))) {
+        botonRegistrarmeHeader.classList.remove('d-none');
+    }
+}
+
+function desactivarSaludo() {
+    if (!(saludoHeader.classList.contains('d-none'))) {
+        saludoHeader.classList.add('d-none');
     }
 }
 
@@ -347,16 +389,139 @@ document.addEventListener("DOMContentLoaded", () => {
     comprar();
 });
 
-document.getElementById('inp_nombre').onblur = () => {nombreUsuario = document.getElementById('inp_nombre').value};
-document.getElementById('inp_apellido').onblur = () => {apellidoUsuario = document.getElementById('inp_apellido').value};
-document.getElementById('inp_email').onblur = () => {emailUsuario = document.getElementById('inp_email').value};
-document.getElementById('inp_direccion').onblur = () => {direccionUsuario = document.getElementById('inp_direccion').value};
+function isNameOk() {
+    if (nombreUsuario.length > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isSurnameOk() {
+    if (apellidoUsuario.length > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isEmailOk() {
+    if (emailUsuario.length > 0 && emailUsuario.includes('@')) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isAdressOk() {
+    if (direccionUsuario.length > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+document.getElementById('inp_nombre').onblur = () => {
+    nombreUsuario = document.getElementById('inp_nombre').value;
+    divErrorName.innerHTML = '';
+    if (!isNameOk()) {
+        divErrorName.textContent = 'No es un nombre válido.';
+    }
+    if (isNameOk() && isSurnameOk() && isEmailOk() && isAdressOk()) {
+        if (botonRegistrarme.hasAttribute('disabled')) {
+            botonRegistrarme.removeAttribute('disabled');
+        }
+    } else {
+        if (!botonRegistrarme.hasAttribute('disabled')) {
+            botonRegistrarme.setAttribute('disabled', '');
+        }
+    }
+}
+
+document.getElementById('inp_nombre').onfocus = () => {
+    if (!botonRegistrarme.hasAttribute('disabled')) {
+        botonRegistrarme.setAttribute('disabled', '');
+    }
+}
+
+document.getElementById('inp_apellido').onblur = () => {
+    apellidoUsuario = document.getElementById('inp_apellido').value;
+    divErrorSurname.innerHTML = '';
+    if (!isSurnameOk()) {
+        divErrorSurname.textContent = 'No es un apellido válido.';
+    }
+    if (isNameOk() && isSurnameOk() && isEmailOk() && isAdressOk()) {
+        if (botonRegistrarme.hasAttribute('disabled')) {
+            botonRegistrarme.removeAttribute('disabled');
+        }
+    } else {
+        if (!botonRegistrarme.hasAttribute('disabled')) {
+            botonRegistrarme.setAttribute('disabled', '');
+        }
+    }
+}
+
+document.getElementById('inp_apellido').onfocus = () => {
+    if (!botonRegistrarme.hasAttribute('disabled')) {
+        botonRegistrarme.setAttribute('disabled', '');
+    }
+}
+
+document.getElementById('inp_email').onblur = () => {
+    emailUsuario = document.getElementById('inp_email').value;
+    divErrorEmail.innerHTML = '';
+    if (!isEmailOk()) {
+        divErrorEmail.textContent = 'No es un e-mail válido.';
+    }
+    if (isNameOk() && isSurnameOk() && isEmailOk() && isAdressOk()) {
+        if (botonRegistrarme.hasAttribute('disabled')) {
+            botonRegistrarme.removeAttribute('disabled');
+        }
+    } else {
+        if (!botonRegistrarme.hasAttribute('disabled')) {
+            botonRegistrarme.setAttribute('disabled', '');
+        }
+    }
+}
+
+document.getElementById('inp_email').onfocus = () => {
+    if (!botonRegistrarme.hasAttribute('disabled')) {
+        botonRegistrarme.setAttribute('disabled', '');
+    }
+}
+
+document.getElementById('inp_direccion').onblur = () => {
+    direccionUsuario = document.getElementById('inp_direccion').value;
+    divErrorAdress.innerHTML = '';
+    if (!isAdressOk()) {
+        divErrorAdress.textContent = 'No es una dirección válida.';
+    }
+    if (isNameOk() && isSurnameOk() && isEmailOk() && isAdressOk()) {
+        if (botonRegistrarme.hasAttribute('disabled')) {
+            botonRegistrarme.removeAttribute('disabled');
+        }
+    } else {
+        if (!botonRegistrarme.hasAttribute('disabled')) {
+            botonRegistrarme.setAttribute('disabled', '');
+        }
+    }
+}
+
+document.getElementById('inp_direccion').onfocus = () => {
+    if (!botonRegistrarme.hasAttribute('disabled')) {
+        botonRegistrarme.setAttribute('disabled', '');
+    }
+}
 
 botonRegistrarmeHeader.onclick = () => {
     document.getElementById('inp_nombre').value = "";
     document.getElementById('inp_apellido').value = "";
     document.getElementById('inp_email').value = "";
     document.getElementById('inp_direccion').value = "";
+    divErrorName.innerHTML = '';
+    divErrorSurname.innerHTML = '';
+    divErrorEmail.innerHTML = '';
+    divErrorAdress.innerHTML = '';
 }
 
 botonRegistrarme.onclick = () => {
@@ -368,6 +533,50 @@ botonRegistrarme.onclick = () => {
     usuarioPrevioEnBackEnd.direccion = direccionUsuario;
     localStorage.setItem('usuario', JSON.stringify(usuarioPrevioEnBackEnd));
     checkUser();
+}
+
+function activateMinusButtons() {
+    for (const minusButton of minusButtons) {
+        minusButton.addEventListener('click', () => {
+            const idOfProductToSubstract = parseInt(minusButton.getAttribute('id').split('_')[1]);
+            const itemToSubstract = carritoBackEnd.find(item => item.idP === idOfProductToSubstract);
+            const p = productos.find(obj => obj.idP === itemToSubstract.idP);
+            if (itemToSubstract.cantidad > 1) {
+                itemToSubstract.cantidad --;
+                p.reponer(1);
+            } else {
+                const index = carritoBackEnd.indexOf(itemToSubstract);
+                carritoBackEnd.splice(index,1);
+                p.reponer(1);
+            }
+            pushCarrito();
+            displayCarrito();
+        })
+    }
+}
+
+function activatePlusButtons() {
+    for (const plusButton of plusButtons) {
+        plusButton.addEventListener('click', () => {
+            const idOfProductToAdd = parseInt(plusButton.getAttribute('id').split('_')[1]);
+            const itemToAdd = carritoBackEnd.find(item => item.idP === idOfProductToAdd);
+            const p = productos.find(obj => obj.idP === itemToAdd.idP);
+            if (p.stock >= 1) {
+                itemToAdd.cantidad ++;
+                p.vender(1);
+                pushCarrito();
+                displayCarrito();
+            } else {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'info',
+                    text: '¡No hay más stock!',
+                    showConfirmButton: false,
+                    timer: 900
+                });
+            }
+        })
+    }
 }
 
 function activateTrashButtons() {
@@ -467,3 +676,17 @@ botonVaciarCarrito.onclick = () => {
     displayCarrito();
 }
 
+botonCambiarUsuario.onclick = () => {
+    usuarios = [];
+    usuarios.push(new Usuario('anonimo', '', '', ''));
+    localStorage.setItem('usuario', JSON.stringify(usuarios[usuarios.length - 1]));
+    desactivarSaludo();
+    displayRegistro();
+    Swal.fire({
+        position: 'center',
+        icon: 'success',
+        text: "Usuario eliminado. Puedes registrarte o continuar con una compra anónima.",
+        showConfirmButton: false,
+        timer: 2500
+    });
+}

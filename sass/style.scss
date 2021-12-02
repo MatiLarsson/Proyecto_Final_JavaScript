@@ -66,6 +66,11 @@
         width: 60%;
     }
 }
+.inp_errores{
+    font-size: x-small;
+    color:red;
+    margin: 1rem 0;
+}
 #carrito{
     p{
         padding: 20px 0;
@@ -85,6 +90,15 @@
             width: 15px;
             img{
                 width: 100%;
+            }
+        }
+        button.minusButton, button.plusButton{
+            width: 12px;
+            margin: 0 10px;
+            img{
+                &:hover{
+                    background-color: grey;
+                }
             }
         }
         @media screen and (min-width: 992px) {
