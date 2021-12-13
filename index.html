@@ -12,7 +12,7 @@
 <body>
     <div class="header container-fluid mx-0 bg-dark row">
         <nav class="col-10 col-lg-8 m-auto navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="index.html"><img src="assets/images/logos/apple.png" class="logo" alt="logo de apple"></a>
+            <a class="navbar-brand" href="index.html"><img src="assets/images/logos/apple.svg" class="logo" alt="logo de apple"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -42,6 +42,7 @@
                     <li id="carritoHeader" class="nav-item">
                         <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#cartModal">
                             <img src="assets/images/logos/cart.svg" alt="icono de carrito" class="carrito">
+                            <button id="itemCount" class="d-flex flex-row align-items-center justify-content-center"></button>
                         </a>
                     </li>
                 </ul>
@@ -67,10 +68,10 @@
             <div class="media col-12 col-lg-6 d-flex flex-column justify-content-center align-items-center">
                 <p class="mx-4 text-white">Contáctanos:</p>
                 <div class="d-flex flex-row justify-content-center align-items-center">
-                    <a class="mx-3" href="mailto:info@istore.com"><img class="rounded" src="assets/images/logos/mail.png" alt="icono de e-mail"></a>
-                    <a class="mx-3" href="https://www.instagram.com" target="blank"><img class="rounded" src="assets/images/logos/instagram.png" alt="icono de instagram"></a>
-                    <a class="mx-3" href="https://www.facebook.com" target="blank"><img class="rounded" src="assets/images/logos/facebook.png" alt="icono de facebook"></a>
-                    <a class="mx-3" href="https://www.whatsapp.com" target="blank"><img class="rounded" src="assets/images/logos/whatsapp.png" alt="icono de whatsapp"></a>
+                    <a class="mx-3" href="mailto:info@istore.com"><img src="assets/images/logos/envelope.svg" alt="icono de e-mail"></a>
+                    <a class="mx-3" href="https://www.instagram.com" target="blank"><img src="assets/images/logos/instagram.svg" alt="icono de instagram"></a>
+                    <a class="mx-3" href="https://www.facebook.com" target="blank"><img src="assets/images/logos/facebook.svg" alt="icono de facebook"></a>
+                    <a class="mx-3" href="https://www.whatsapp.com" target="blank"><img src="assets/images/logos/whatsapp.svg" alt="icono de whatsapp"></a>
                 </div>
             </div>
             <div class="maps col-12 col-lg-6 d-flex flex-column justify-content-center align-items-center">
@@ -146,11 +147,52 @@
                 </div>
                 <div class="modal-footer">
                     <button id="vaciar" type="button" class="btn btn-secondary">Vaciar carrito</button>
-                    <button id="pagar" type="button" class="btn btn-primary">Pagar</button>
+                    <button id="pagar_1" type="button" data-bs-dismiss="modal" class="btn btn-primary">Ir a pagar</button>
                 </div>
             </div>
         </div>
     </div>
+    <!-- Modal para abrir opciones de pago -->
+    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Opciones de pago</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="paymentOptions" class="modal-body">
+                    <form class="d-flex flex-column justify-content-center align-items-center">
+                        <p>Por favor, seleccione el método de pago deseado</p>
+                        <div class="d-flex flex-column justify-content-center align-items-start">
+                            <table>
+                                <tr>
+                                    <td><input type="radio" id="debito" name="payment" value="tarjeta"></td>
+                                    <td><label for="tarjeta" class="d-flex flex-row justify-content-center align-items-center">Tarjeta de crédito/débito</label></td>
+                                    <td><img src="assets/images/logos/visa.png" alt="icono de visa"></td>
+                                    <td><img src="assets/images/logos/american-express.png" alt="icono de american express"></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="radio" id="paypal" name="payment" value="paypal"></td>
+                                    <td><label for="paypal" class="d-flex flex-row justify-content-center align-items-center">Pay Pal</label></td>
+                                    <td><img src="assets/images/logos/paypal.png" alt="icono de paypal"></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="radio" id="efectivo" name="payment" value="efectivo"></td>
+                                    <td><label for="efectivo" class="d-flex flex-row justify-content-center align-items-center">Pago Fácil</label></td>
+                                    <td><img src="assets/images/logos/pago-facil.svg" alt="icono de pago fácil"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="volverAlCarrito" type="button" data-bs-toggle="modal" data-bs-target="#cartModal" class="btn btn-secondary">Volver al carrito</button>
+                    <button id="pagar_2" type="button" data-bs-dismiss="modal" class="btn btn-primary">Pagar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="js/main.js"></script>
     <script src="js/classes.js"></script>
     <script src="js/functions.js"></script>

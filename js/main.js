@@ -3,9 +3,11 @@ Comentarios sobre el funcionamiento de la tienda:
 
 El carrito del usuario asi como tambien sus datos se almacenan en el local storage.
 Al cargar la pagina, js busca en la memoria local si el usuario ya se habia registrado anteriormente y trae su informacion asi como
-su carrito en el estado en el que lo dejo.
+su carrito en el estado en el que lo dejo, si el usuario hubiese sido anonimo, no traerá su estado de carrito, lo vaciará al recargar
+y le permitirá hacer una nueva compra anónima desde cero.
 Se habilita la carga de productos al carrito tanto para un usuario registrado como para un usuario anonimo. En este ultimo caso,
 se le exigira que se registra al clickear en el boton pagar.
+Si el usuario no coincide, se puede resetear el usuario. Los datos del carrito y de usuario previo se perderán.
 Al ir añadiendo productos js lleva un carrito que es pusheado al local Storage inmediatamente luego de cada adición o
 baja de producto.
 Al arrepentirse de compras,cambiar las cantidades, o al vaciar el carrito el stock de los productos en cuestion es devuelto al
@@ -24,10 +26,10 @@ let ventas = [];
 let total = 0;
 let hoy = new Date();
 let fechaActual = hoy.getDate() + '/' + (hoy.getMonth() + 1) + '/' + hoy.getFullYear();
-let nombreUsuario;
-let apellidoUsuario;
-let emailUsuario;
-let direccionUsuario;
+let nombreUsuario = "";
+let apellidoUsuario = "";
+let emailUsuario = "";
+let direccionUsuario = "";
 let botonRegistrarmeHeader = document.getElementById('btn_registrarme_header');
 let saludoHeader = document.getElementById('saludo');
 let botonRegistrarme = document.getElementById('btn_registrarme');
@@ -36,7 +38,9 @@ let botonesComprar = document.querySelectorAll('.comprar');
 let botonCarrito = document.getElementById('carritoHeader');
 let contenidoCarrito = document.getElementById('carrito');
 let botonVaciarCarrito = document.getElementById('vaciar');
-let botonPagar = document.getElementById('pagar');
+let botonIrAPagar = document.getElementById('pagar_1');
+let botonPagar = document.getElementById('pagar_2');
+let botonVolverAlCarrito = document.getElementById('volverAlCarrito');
 let formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -176,22 +180,9 @@ botonCarrito.onclick = () => {
     displayCarrito();
 }
 
-botonPagar.onclick = () => {
+botonIrAPagar.onclick = () => {
     if (carritoBackEnd.length > 0) {
-        if (registrado()) {
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: "¡Pagado!",
-                text: "¡Gracias por comprar en nuestra tienda!",
-                showConfirmButton: false,
-                timer: 1500
-            });
-            ventas.push(new Venta());
-            carritoBackEnd = [];
-            pushCarrito();
-            displayCarrito();
-        } else {
+        if (!registrado()) {
             Swal.fire({
                 position: 'center',
                 icon: 'info',
@@ -209,6 +200,21 @@ botonPagar.onclick = () => {
             timer: 1500
         });
     }
+}
+
+botonPagar.onclick = () => {
+    Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: "¡Pagado!",
+        text: "¡Gracias por comprar en nuestra tienda!",
+        showConfirmButton: false,
+        timer: 1500
+    });
+    ventas.push(new Venta());
+    carritoBackEnd = [];
+    pushCarrito();
+    displayCarrito();
 }
 
 botonVaciarCarrito.onclick = () => {
@@ -232,6 +238,7 @@ botonCambiarUsuario.onclick = () => {
     localStorage.setItem('usuario', JSON.stringify(usuarios[usuarios.length - 1]));
     desactivarSaludo();
     displayRegistro();
+    updateItemCount();
     Swal.fire({
         position: 'center',
         icon: 'success',
