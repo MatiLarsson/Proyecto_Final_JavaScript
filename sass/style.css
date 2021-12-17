@@ -1,3 +1,65 @@
+.productOverlay {
+  display: none;
+  background-color: rgba(0, 0, 0, 0.8);
+  border: solid 2px #666;
+  padding: 2rem;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+.productOverlay .productContent {
+  display: none;
+  background-color: #fff;
+  border: solid 2px #666;
+  border-radius: 15px;
+  -webkit-box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+          box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+  padding: 4rem;
+  width: 70%;
+  position: absolute;
+  left: 15%;
+  z-index: 200;
+}
+
+.productOverlay .productContent #carouselDetalle {
+  width: 40%;
+  margin: auto;
+}
+
+.productOverlay .productContent a.xbtn {
+  text-decoration: none;
+  position: absolute;
+  top: 0;
+  right: 1rem;
+  -webkit-transform: rotateZ(45deg);
+          transform: rotateZ(45deg);
+  color: #666;
+  font-size: 2.5rem;
+  cursor: pointer;
+}
+
+.productOverlay .productContent .detailButtons {
+  width: 100%;
+}
+
+.productOverlay .productContent .detailButtons a.btn {
+  text-decoration: none;
+  border-radius: 30px;
+  float: right;
+  padding: 6px 12px;
+  font-size: 1rem;
+  color: #666;
+  background: #fff;
+  border: 1px solid #666;
+}
+
+.productOverlay .productContent .detailButtons a.btn:hover {
+  background: #666;
+  color: #fff;
+}
+
 .header .logo {
   width: 41.4px;
   -webkit-filter: invert(100%);
@@ -24,7 +86,7 @@
   color: black;
   position: absolute;
   top: 3px;
-  right: 0;
+  left: 25px;
   background: radial-gradient(white, #ccc);
   border: none;
   border-radius: 50%;
@@ -33,13 +95,70 @@
   outline: none;
 }
 
+.header #cartFocus {
+  margin-left: 1rem;
+  margin-top: .5rem;
+  cursor: pointer;
+  display: none;
+}
+
+@-webkit-keyframes finishPurchaseFocuser {
+  0% {
+    -webkit-transform: translateX(0px);
+            transform: translateX(0px);
+  }
+  100% {
+    -webkit-transform: translateX(15px);
+            transform: translateX(15px);
+  }
+}
+
+@keyframes finishPurchaseFocuser {
+  0% {
+    -webkit-transform: translateX(0px);
+            transform: translateX(0px);
+  }
+  100% {
+    -webkit-transform: translateX(15px);
+            transform: translateX(15px);
+  }
+}
+
+.header #cartFocus .flecha {
+  width: 25px;
+  -webkit-filter: invert(100%);
+          filter: invert(100%);
+  -webkit-animation-name: finishPurchaseFocuser;
+          animation-name: finishPurchaseFocuser;
+  -webkit-animation-duration: 2s;
+          animation-duration: 2s;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  animation-direction: alternate-reverse;
+  -webkit-animation-timing-function: ease-in-out;
+          animation-timing-function: ease-in-out;
+}
+
+.header #cartFocus div {
+  margin-left: .5rem;
+  color: #fff;
+  font-size: medium;
+  -webkit-animation-name: finishPurchaseFocuser;
+          animation-name: finishPurchaseFocuser;
+  -webkit-animation-duration: 2s;
+          animation-duration: 2s;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  animation-direction: alternate-reverse;
+  -webkit-animation-timing-function: ease-in-out;
+          animation-timing-function: ease-in-out;
+  -webkit-animation-delay: .1s;
+          animation-delay: .1s;
+}
+
 .main .banner {
   height: 225px;
   width: 400px;
-  background-image: url("../assets/images/banners/imacs.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
 }
 
 @media screen and (min-width: 576px) {
@@ -63,13 +182,32 @@
   }
 }
 
+.main .banner .carousel-item {
+  -webkit-transition-duration: 1500ms;
+          transition-duration: 1500ms;
+}
+
 .main .producto .imagenProd {
   height: 10rem;
+  cursor: pointer;
+  -webkit-transition: ease-in-out;
+  transition: ease-in-out;
+  -webkit-transition-duration: 200ms;
+          transition-duration: 200ms;
+}
+
+.main .producto .imagenProd:hover {
+  -webkit-transform: scale(1.03);
+          transform: scale(1.03);
 }
 
 .main .producto p {
   width: 100%;
   text-align: center;
+}
+
+.main .producto .nombreProducto {
+  cursor: pointer;
 }
 
 .main .producto button {
@@ -116,6 +254,15 @@
 
 #carrito img {
   width: 40px;
+  -webkit-transition: ease-in-out;
+  transition: ease-in-out;
+  -webkit-transition-duration: 200ms;
+          transition-duration: 200ms;
+}
+
+#carrito img:hover {
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
 }
 
 #carrito table {

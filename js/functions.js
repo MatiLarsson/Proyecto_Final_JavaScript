@@ -15,6 +15,7 @@ function displayCarrito() {
     const cart = document.getElementById('carrito');
     removeAllChildNodes(cart);
     const titulo = document.createElement('p');
+    titulo.classList.add('text-secondary');
     if (carritoBackEnd.length > 0) {
         if (registrado() && !botonPagar.hasAttribute('data-bs-target')) {
             botonIrAPagar.setAttribute('data-bs-toggle', 'modal');
@@ -51,7 +52,7 @@ function displayCarrito() {
                     const trContent = document.createElement('tr');
                     const td1 = document.createElement('td');
                     const img = document.createElement('img');
-                    img.src = producto.img;
+                    img.src = producto.img0;
                     td1.appendChild(img);
                     trContent.appendChild(td1);
                     const td2 = document.createElement('td');
@@ -99,6 +100,7 @@ function displayCarrito() {
             }
         }
         const suma = document.createElement('p');
+        suma.classList.add('text-secondary');
         suma.innerHTML = `Total a Pagar: ${formatter.format(total)}`;
         cart.appendChild(suma);
         minusButtons = document.getElementsByClassName('minusButton');
@@ -251,23 +253,26 @@ function checkUser() {
     updateItemCount();
 }
 
-function add(nombre, precio, cantidad, img, categoria) {
-    productos.push(new Producto(nombre, precio, cantidad, img, categoria));
+function add(nombre, precio, cantidad, img0, img1, img2, categoria, descripcion) {
+    productos.push(new Producto(nombre, precio, cantidad, img0, img1, img2, categoria, descripcion));
     productos[productos.length - 1].sumaIva();
 }
 
 // Carga de productos a la tienda (backend):
 
 function cargarProductos() {
-    add("macbook pro", 2299, 2, "assets/images/products/macbookpro.png", 'mac');
-    add("macbook air", 1449, 2, "assets/images/products/macbookair.png", 'mac');
-    add("imac", 2999, 2, "assets/images/products/imac.png", 'mac');
-    add("iphone 13 pro max", 1299, 2, "assets/images/products/iphone13promax.png", 'iphone');
-    add("iphone 13 pro", 1199, 2, "assets/images/products/iphone13pro.png", 'iphone');
-    add("iphone 13", 999, 2, "assets/images/products/iphone13.png", 'iphone');
-    add("iphone 12", 899, 2, "assets/images/products/iphone12.png", 'iphone');
-    add("iphone SE", 499, 2, "assets/images/products/iphoneSE.png", 'iphone');
-    add("iphone 11", 549, 2, "assets/images/products/iphone11.png", 'iphone');
+    add("macbook pro", 2299, 2, "assets/images/products/macbookpro.png", "assets/images/products/macbookpro.png", "assets/images/products/macbookpro.png", 'mac', 'Ésta es la descipción de la macbook pro.');
+    add("macbook air", 1449, 2, "assets/images/products/macbookair.png", "assets/images/products/macbookair.png", "assets/images/products/macbookair.png", 'mac', 'Ésta es la descripción de la macbook air.');
+    add("imac", 2999, 2, "assets/images/products/imac.png", "assets/images/products/imac.png", "assets/images/products/imac.png", 'mac', 'Ésta es la descripción de la imac.');
+    add("iphone 13 pro max", 1299, 2, "assets/images/products/iphone13promax.png", "assets/images/products/iphone13promax.png", "assets/images/products/iphone13promax.png", 'iphone', 'Ésta es la descripción del iphone 13 pro max.');
+    add("iphone 13 pro", 1199, 2, "assets/images/products/iphone13pro.png", "assets/images/products/iphone13pro.png", "assets/images/products/iphone13pro.png", 'iphone', 'Ésta es la descripción del iphone 13 pro.');
+    add("iphone 13", 999, 2, "assets/images/products/iphone13.png", "assets/images/products/iphone13.png", "assets/images/products/iphone13.png", 'iphone', 'Ésta es la descripción del iphone 13.');
+    add("iphone 12", 899, 2, "assets/images/products/iphone12.png", "assets/images/products/iphone12.png", "assets/images/products/iphone12.png", 'iphone', 'Ésta es la descripción del iphone 12.');
+    add("iphone SE", 499, 2, "assets/images/products/iphoneSE.png", "assets/images/products/iphoneSE.png", "assets/images/products/iphoneSE.png", 'iphone', 'Ésta es la descripción del iphone SE.');
+    add("iphone 11", 549, 2, "assets/images/products/iphone11.png", "assets/images/products/iphone11.png", "assets/images/products/iphone11.png", 'iphone', 'Ésta es la descripción del iphone 11.');
+    add("airpods 3rd generation", 189, 2, "assets/images/products/airpods3.png", "assets/images/products/airpods3.png", "assets/images/products/airpods3.png", 'airpods', 'Ésta es la descripción de los airpods 3rd generation.');
+    add("airpods pro", 259, 2, "assets/images/products/airpodspro.png", "assets/images/products/airpodspro.png", "assets/images/products/airpodspro.png", 'airpods', 'Ésta es la descripción de los airpods pro.');
+    add("airpods max", 579, 2, "assets/images/products/airpodsmax.png", "assets/images/products/airpodsmax.png", "assets/images/products/airpodsmax.png", 'airpods', 'Ésta es la descripción de los airpods max.');
 }
 
 // Carga de productos al FrontEnd
@@ -283,6 +288,10 @@ function mostrarProductos() {
             nodoPadre = document.querySelector('#iphone');
         }
 
+        if (producto.categoria === 'AIRPODS') {
+            nodoPadre = document.querySelector('#airpods');
+        }
+
         const divContenedor = document.createElement('div');
         divContenedor.classList.add('col-12', 'col-md-4');
 
@@ -291,7 +300,7 @@ function mostrarProductos() {
 
         const imagenProd = document.createElement('img');
         imagenProd.classList.add('imagenProd');
-        imagenProd.src = producto.img;
+        imagenProd.src = producto.img0;
         imagenProd.setAttribute('alt', `${producto.nombre}`);
 
         const nombreProd = document.createElement('p');
@@ -331,6 +340,7 @@ function mostrarProductos() {
         divProducto.appendChild(lastUnitDiv);
     })
     botonesComprar = document.querySelectorAll('.comprar');
+    nombresDeProductos = document.querySelectorAll('.nombreProducto');
 }
 
 function activateMinusButtons() {
@@ -424,6 +434,37 @@ function comprar()  {
     });
 }
 
+function detalleDeProductos() {
+    for (const nombreDeProducto of nombresDeProductos) {
+        const nombreDelProductoADetallar = nombreDeProducto.parentNode.children[1].innerHTML.toUpperCase();
+        const productoADetallar = productos.find(producto => producto.nombre === nombreDelProductoADetallar);
+        const nombre = document.getElementById('nameToDetail');
+        const image0 = document.getElementById('imageDetail0');
+        const image1 = document.getElementById('imageDetail1');
+        const image2 = document.getElementById('imageDetail2');
+        const descripcion = document.getElementById('descripcion');
+        const imgInStore = nombreDeProducto.parentNode.children[0];
+        nombreDeProducto.addEventListener('click', () => {
+            nombre.textContent = productoADetallar.nombre;
+            image0.src = productoADetallar.img0;
+            image1.src = productoADetallar.img1;
+            image2.src = productoADetallar.img2;
+            descripcion.innerHTML = productoADetallar.descripcion;
+            window.scroll({
+                top: 0,
+                left: 0,
+                behavior: "smooth"
+            });
+            $('.productOverlay, .productContent').fadeIn();
+            document.querySelector('.btn-comprar').setAttribute('id', `${productoADetallar.idP}`);
+        })
+        imgInStore.addEventListener('click', () => {
+            nombreDeProducto.click();
+            document.querySelector('.btn-comprar').setAttribute('id', `${productoADetallar.idP}`);
+        })
+    }
+}
+
 function ItemsInCartCounter() {
     let count = 0;
     carritoBackEnd.forEach(element => {
@@ -435,4 +476,9 @@ function ItemsInCartCounter() {
 function updateItemCount() {
     let number = document.getElementById('itemCount');
     number.textContent = `${ItemsInCartCounter()}`;
+    if (ItemsInCartCounter() > 0) {
+        $('#cartFocus').show();
+    } else{
+        $('#cartFocus').hide();
+    }
 }

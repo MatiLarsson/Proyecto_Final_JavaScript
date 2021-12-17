@@ -34,8 +34,8 @@ let botonRegistrarmeHeader = document.getElementById('btn_registrarme_header');
 let saludoHeader = document.getElementById('saludo');
 let botonRegistrarme = document.getElementById('btn_registrarme');
 let botonCambiarUsuario = document.getElementById('btn_changeUser');
-let botonesComprar = document.querySelectorAll('.comprar');
 let botonCarrito = document.getElementById('carritoHeader');
+let botonCartFocus = document.getElementById('cartFocus');
 let contenidoCarrito = document.getElementById('carrito');
 let botonVaciarCarrito = document.getElementById('vaciar');
 let botonIrAPagar = document.getElementById('pagar_1');
@@ -48,6 +48,8 @@ let formatter = new Intl.NumberFormat('en-US', {
 let minusButtons = HTMLCollection;
 let plusButtons = HTMLCollection;
 let trashButtons = HTMLCollection;
+let botonesComprar = HTMLCollection;
+let nombresDeProductos = HTMLCollection;
 let divErrorName = document.getElementById('inp_errorName');
 let divErrorSurname = document.getElementById('inp_errorSurname');
 let divErrorEmail = document.getElementById('inp_errorEmail');
@@ -60,6 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
     mostrarProductos();
     checkUser();
     comprar();
+    detalleDeProductos();
 });
 
 document.getElementById('inp_nombre').onblur = () => {
@@ -246,4 +249,28 @@ botonCambiarUsuario.onclick = () => {
         showConfirmButton: false,
         timer: 2500
     });
+}
+
+$('.xbtn, .btn-cerrar').click(function(){
+    $('.productOverlay, .productContent').fadeOut();
+});
+
+botonCartFocus.onclick = () => {
+    displayCarrito();
+}
+
+document.querySelector('.btn-comprar').onclick = () => {
+    const id = parseInt(document.querySelector('.btn-comprar').getAttributeNode('id').value);
+    const buttonToTrigger = botonesComprar[id];
+    if (buttonToTrigger.hasAttribute('disabled')) {
+        Swal.fire({
+            position: 'center',
+            icon: 'info',
+            text: '¡No hay más stock!',
+            showConfirmButton: false,
+            timer: 900
+        });
+    } else{
+        buttonToTrigger.click();
+    }
 }

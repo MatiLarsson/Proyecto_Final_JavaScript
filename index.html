@@ -28,6 +28,7 @@
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" href="#mac">Mac</a></li>
                             <li><a class="dropdown-item" href="#iphone">iPhone</a></li>
+                            <li><a class="dropdown-item" href="#airpods">AirPods</a></li>
                         </ul>
                     </li>
                     <li id="btn_registrarme_header" class="nav-item">
@@ -44,22 +45,46 @@
                             <img src="assets/images/logos/cart.svg" alt="icono de carrito" class="carrito">
                             <button id="itemCount" class="d-flex flex-row align-items-center justify-content-center"></button>
                         </a>
+                        <li id="cartFocus" class="nav-item" href="#" data-bs-toggle="modal" data-bs-target="#cartModal">
+                            <div class="d-flex flex-row justify-content-center align-items-center">
+                                <img src="assets/images/logos/caret-left.svg" alt="ícono flecha izquerda" class="flecha">
+                                <div>¡Termina tu compra!</div>
+                            </div>
+                        </li>
                     </li>
                 </ul>
             </div>
         </nav>
     </div>
     <div class="main container-xl m-auto px-0 row d-flex flex-column align-items-center">
-        <div class="banner mt-3">
+        <div class="banner mt-5">
+            <div id="carouselExampleSlidesOnly" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active" data-bs-interval="5000">
+                        <img src="assets/images/banners/imacs.jpg" class="d-block w-100" alt="imacs banner">
+                    </div>
+                    <div class="carousel-item" data-bs-interval="5000">
+                        <img src="assets/images/banners/iphone.jpg" class="d-block w-100" alt="airpods pro banner">
+                    </div>
+                    <div class="carousel-item" data-bs-interval="5000">
+                        <img src="assets/images/banners/airpodspro.jpg" class="d-block w-100" alt="iphone banner">
+                    </div>
+                </div>
+            </div>
         </div>
         <div id="mac" class="row">
-            <div class="col-12 mt-3">
+            <div class="col-12 mt-5">
                 <h1 class="text-center mt-5">Mac</h1>
             </div>
         </div>
         <div id="iphone" class="mt-5 row">
-            <div class="col-12">
+            <div class="col-12 mt-5">
                 <h1 class="text-center">iPhone</h1>
+            </div>
+        </div>
+        <div id="airpods" class="mt-5 row">
+            <div class="col-12 mt-5">
+                <h1 class="text-center">AirPods</h1>
             </div>
         </div>
     </div>
@@ -80,7 +105,7 @@
             </div>
         </div>
     </div>
-    <!-- Modal para registro o login -->
+    <!-- Modal de bootstrap para registro o login -->
     <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -135,7 +160,7 @@
             </div>
         </div>
     </div>
-    <!-- Modal para abrir el carrito de compras -->
+    <!-- Modal de bootstrap para abrir el carrito de compras -->
     <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -152,7 +177,7 @@
             </div>
         </div>
     </div>
-    <!-- Modal para abrir opciones de pago -->
+    <!-- Modal de bootstrap para abrir opciones de pago -->
     <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -162,7 +187,7 @@
                 </div>
                 <div id="paymentOptions" class="modal-body">
                     <form class="d-flex flex-column justify-content-center align-items-center">
-                        <p>Por favor, seleccione el método de pago deseado</p>
+                        <p class="text-secondary">Por favor, seleccione el método de pago deseado</p>
                         <div class="d-flex flex-column justify-content-center align-items-start">
                             <table>
                                 <tr>
@@ -189,6 +214,45 @@
                     <button id="volverAlCarrito" type="button" data-bs-toggle="modal" data-bs-target="#cartModal" class="btn btn-secondary">Volver al carrito</button>
                     <button id="pagar_2" type="button" data-bs-dismiss="modal" class="btn btn-primary">Pagar</button>
                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal propia para detalle de productos -->
+    <div class="productOverlay">
+        <div class="productContent d-flex flex-column align-items-center">
+            <a class="xbtn">+</a>
+            <h2 id="nameToDetail"></h2>
+            <div id="carouselDetalle" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselDetalle" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselDetalle" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselDetalle" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img id="imageDetail0" class="d-block w-100" alt="imagen de detalle del producto">
+                    </div>
+                    <div class="carousel-item">
+                        <img id="imageDetail1" class="d-block w-100" alt="imagen de detalle del producto">
+                    </div>
+                    <div class="carousel-item">
+                        <img id="imageDetail2" class="d-block w-100" alt="imagen de detalle del producto">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselDetalle" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselDetalle" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+            <div id="descripcion">
+            </div>
+            <div class="detailButtons">
+                <a href="#" class="btn btn-comprar mx-2">comprar</a>
+                <a href="#" class="btn btn-cerrar mx-2">Volver a la tienda</a>
             </div>
         </div>
     </div>
