@@ -233,6 +233,71 @@
         }
     }
 }
+#comprasModal{
+    table{
+        margin: auto;
+        font-size: small;
+        border-collapse: separate;
+        td, th{
+            text-align: center;
+            width: 150px;
+            .detail{
+                cursor: pointer;
+                width: 15px;
+            }
+            .imgD{
+                width: 30px;
+            }
+        }
+        .detail-row-header{
+            background-color: rgb(120, 168, 231);
+            font-weight: bold;
+            font-size: x-small;
+            td:first-child{
+                border-top-left-radius: 5px;
+            }
+            td:last-child{
+                border-top-right-radius: 5px;
+            }
+        }
+        .empty-row, .empty-row2{
+            td{
+                height: 10px;
+            }
+        }
+        .detail-row{
+            font-size: x-small;
+            background-color: #ccc;
+        }
+        .deco-row{
+            background-color: rgb(120, 168, 231);
+            font-size: x-small;
+            td{
+                height: 6px;
+            }
+            td:first-child{
+                border-bottom-left-radius: 3px;
+            }
+            td:last-child{
+                border-bottom-right-radius: 3px;
+            }
+        }
+        tr:last-child{
+            td:first-child{
+                border-bottom-left-radius: 5px;
+            }
+            td:last-child{
+                border-bottom-right-radius: 5px;
+            }
+        }
+        @media screen and (min-width: 992px) {
+            font-size: small;
+            td, th{
+                padding: 0 20px;
+            }
+        }
+    }
+}
 #paymentModal{
     #paymentOptions{
         table{

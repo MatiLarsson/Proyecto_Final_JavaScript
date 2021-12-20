@@ -1,0 +1,122 @@
+[
+  {
+    "nombre": "MACBOOK PRO",
+    "precio": 2299,
+    "stock": 2,
+    "thumbnail": "assets/images/products/macbookpro.png",
+    "img1": "assets/images/products/macbookpro.png",
+    "img2": "assets/images/products/macbookpro.png",
+    "categoria": "MAC",
+    "descripcion": "Ésta es la descipción de la macbook pro."
+  },
+  {
+    "nombre": "MACBOOK AIR",
+    "precio": 1449,
+    "stock": 2,
+    "thumbnail": "assets/images/products/macbookair.png",
+    "img1": "assets/images/products/macbookair.png",
+    "img2": "assets/images/products/macbookair.png",
+    "categoria": "MAC",
+    "descripcion": "Ésta es la descripción de la macbook air."
+  },
+  {
+    "nombre": "IMAC",
+    "precio": 2999,
+    "stock": 2,
+    "thumbnail": "assets/images/products/imac.png",
+    "img1": "assets/images/products/imac.png",
+    "img2": "assets/images/products/imac.png",
+    "categoria": "MAC",
+    "descripcion": "Ésta es la descripción de la imac."
+  },
+  {
+    "nombre": "IPHONE 13 PRO MAX",
+    "precio": 1299,
+    "stock": 2,
+    "thumbnail": "assets/images/products/iphone13promax.png",
+    "img1": "assets/images/products/iphone13promax.png",
+    "img2": "assets/images/products/iphone13promax.png",
+    "categoria": "IPHONE",
+    "descripcion": "Ésta es la descripción del iphone 13 pro max."
+  },
+  {
+    "nombre": "IPHONE 13 PRO",
+    "precio": 1199,
+    "stock": 2,
+    "thumbnail": "assets/images/products/iphone13pro.png",
+    "img1": "assets/images/products/iphone13pro.png",
+    "img2": "assets/images/products/iphone13pro.png",
+    "categoria": "IPHONE",
+    "descripcion": "Ésta es la descripción del iphone 13 pro."
+  },
+  {
+    "nombre": "IPHONE 13",
+    "precio": 999,
+    "stock": 2,
+    "thumbnail": "assets/images/products/iphone13.png",
+    "img1": "assets/images/products/iphone13.png",
+    "img2": "assets/images/products/iphone13.png",
+    "categoria": "IPHONE",
+    "descripcion": "Ésta es la descripción del iphone 13."
+  },
+  {
+    "nombre": "IPHONE 12",
+    "precio": 899,
+    "stock": 2,
+    "thumbnail": "assets/images/products/iphone12.png",
+    "img1": "assets/images/products/iphone12.png",
+    "img2": "assets/images/products/iphone12.png",
+    "categoria": "IPHONE",
+    "descripcion": "Ésta es la descripción del iphone 12."
+  },
+  {
+    "nombre": "IPHONE SE",
+    "precio": 499,
+    "stock": 2,
+    "thumbnail": "assets/images/products/iphoneSE.png",
+    "img1": "assets/images/products/iphoneSE.png",
+    "img2": "assets/images/products/iphoneSE.png",
+    "categoria": "IPHONE",
+    "descripcion": "Ésta es la descripción del iphone SE."
+  },
+  {
+    "nombre": "IPHONE 11",
+    "precio": 549,
+    "stock": 2,
+    "thumbnail": "assets/images/products/iphone11.png",
+    "img1": "assets/images/products/iphone11.png",
+    "img2": "assets/images/products/iphone11.png",
+    "categoria": "IPHONE",
+    "descripcion": "Ésta es la descripción del iphone 11."
+  },
+  {
+    "nombre": "AIRPODS 3RD GENERATION",
+    "precio": 189,
+    "stock": 2,
+    "thumbnail": "assets/images/products/airpods3.png",
+    "img1": "assets/images/products/airpods3.png",
+    "img2": "assets/images/products/airpods3.png",
+    "categoria": "AIRPODS",
+    "descripcion": "Ésta es la descripción de los airpods 3rd generation."
+  },
+  {
+    "nombre": "AIRPODS PRO",
+    "precio": 259,
+    "stock": 2,
+    "thumbnail": "assets/images/products/airpodspro.png",
+    "img1": "assets/images/products/airpodspro.png",
+    "img2": "assets/images/products/airpodspro.png",
+    "categoria": "AIRPODS",
+    "descripcion": "Ésta es la descripción de los airpods pro."
+  },
+  {
+    "nombre": "AIRPODS MAX",
+    "precio": 579,
+    "stock": 2,
+    "thumbnail": "assets/images/products/airpodsmax.png",
+    "img1": "assets/images/products/airpodsmax.png",
+    "img2": "assets/images/products/airpodsmax.png",
+    "categoria": "AIRPODS",
+    "descripcion": "Ésta es la descripción de los airpods max."
+  }
+]

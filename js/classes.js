@@ -1,11 +1,11 @@
 // Clases
 
 class Producto {
-    constructor(nombre, precio, stock, img0, img1, img2, categoria, descripcion) {
+    constructor(nombre, precio, stock, thumbnail, img1, img2, categoria, descripcion) {
         this.nombre = nombre.toUpperCase();
         this.precio = parseFloat(precio);
         this.stock = parseInt(stock);
-        this.img0 = img0;
+        this.thumbnail = thumbnail;
         this.img1 = img1;
         this.img2 = img2;
         this.categoria = categoria.toUpperCase();
@@ -41,11 +41,12 @@ class Item {
 }
 
 class Usuario {
-    constructor(nombre, apellido, email, direccionDeEnvio) {
+    constructor(nombre, apellido, email, direccionDeEnvio, compras) {
         this.nombre = nombre.toUpperCase();
         this.apellido = apellido.toUpperCase();
         this.email = email;
         this.direccionDeEnvio = direccionDeEnvio.toUpperCase();
+        this.compras = [];
         this.carrito = carritoBackEnd;
         this.idU = Usuario.ID;
         Usuario.ID++

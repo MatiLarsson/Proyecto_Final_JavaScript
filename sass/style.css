@@ -307,6 +307,83 @@
   }
 }
 
+#comprasModal table {
+  margin: auto;
+  font-size: small;
+  border-collapse: separate;
+}
+
+#comprasModal table td, #comprasModal table th {
+  text-align: center;
+  width: 150px;
+}
+
+#comprasModal table td .detail, #comprasModal table th .detail {
+  cursor: pointer;
+  width: 15px;
+}
+
+#comprasModal table td .imgD, #comprasModal table th .imgD {
+  width: 30px;
+}
+
+#comprasModal table .detail-row-header {
+  background-color: #78a8e7;
+  font-weight: bold;
+  font-size: x-small;
+}
+
+#comprasModal table .detail-row-header td:first-child {
+  border-top-left-radius: 5px;
+}
+
+#comprasModal table .detail-row-header td:last-child {
+  border-top-right-radius: 5px;
+}
+
+#comprasModal table .empty-row td, #comprasModal table .empty-row2 td {
+  height: 10px;
+}
+
+#comprasModal table .detail-row {
+  font-size: x-small;
+  background-color: #ccc;
+}
+
+#comprasModal table .deco-row {
+  background-color: #78a8e7;
+  font-size: x-small;
+}
+
+#comprasModal table .deco-row td {
+  height: 6px;
+}
+
+#comprasModal table .deco-row td:first-child {
+  border-bottom-left-radius: 3px;
+}
+
+#comprasModal table .deco-row td:last-child {
+  border-bottom-right-radius: 3px;
+}
+
+#comprasModal table tr:last-child td:first-child {
+  border-bottom-left-radius: 5px;
+}
+
+#comprasModal table tr:last-child td:last-child {
+  border-bottom-right-radius: 5px;
+}
+
+@media screen and (min-width: 992px) {
+  #comprasModal table {
+    font-size: small;
+  }
+  #comprasModal table td, #comprasModal table th {
+    padding: 0 20px;
+  }
+}
+
 #paymentModal #paymentOptions table td input, #paymentModal #paymentOptions table td label {
   margin: 0 1rem;
 }

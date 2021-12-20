@@ -40,6 +40,11 @@
                         <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#notUserModal">
                         </a>
                     </li>
+                    <li id="misCompras" class="nav-item d-none">
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#comprasModal">
+                            Mis compras
+                        </a>
+                    </li>
                     <li id="carritoHeader" class="nav-item">
                         <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#cartModal">
                             <img src="assets/images/logos/cart.svg" alt="icono de carrito" class="carrito">
@@ -156,6 +161,22 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">¡Sí, está OK!</button>
                     <button id="btn_changeUser" type="button" class="btn btn-danger" data-bs-dismiss="modal">¡No lo reconozco!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal de bootstrap para abrir el historial de compras -->
+    <div class="modal fade" id="comprasModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Mi historial de compras</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="compras" class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button id="vaciar" type="button" data-bs-dismiss="modal" class="btn btn-secondary">Cerrar</button>
                 </div>
             </div>
         </div>
