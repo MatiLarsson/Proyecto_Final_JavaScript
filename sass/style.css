@@ -18,14 +18,20 @@
           box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
   padding: 4rem;
   width: 70%;
+  min-height: 150vh;
   position: absolute;
   left: 15%;
   z-index: 200;
 }
 
 .productOverlay .productContent #carouselDetalle {
-  width: 40%;
+  width: 60%;
   margin: auto;
+}
+
+.productOverlay .productContent #carouselDetalle .carousel-inner img {
+  -o-object-fit: scale-down;
+     object-fit: scale-down;
 }
 
 .productOverlay .productContent a.xbtn {

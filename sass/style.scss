@@ -15,12 +15,18 @@
         box-shadow: 3px 3px 6px rgba(0, 0, 0, .3);
         padding: 4rem;
         width: 70%;
+        min-height: 150vh;
         position: absolute;
         left: 15%;
         z-index: 200;
         #carouselDetalle{
-            width: 40%;
+            width: 60%;
             margin: auto;
+            .carousel-inner{
+                img{
+                    object-fit: scale-down;
+                }
+            }
         }
         a.xbtn{
             text-decoration: none;
