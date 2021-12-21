@@ -1,5 +1,3 @@
-// Clases
-
 class Producto {
     constructor(nombre, precio, stock, thumbnail, img1, img2, categoria, descripcion) {
         this.nombre = nombre.toUpperCase();
